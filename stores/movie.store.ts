@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-const authToken =
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMjRlOGM1NmNlMGU3NWQzOGVhMzBiYzc0YjY5M2UyZCIsInN1YiI6IjY1ODE1ODQ2N2U0MDNkMDkyNWY1NGQ3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BOvgAXyNTYzNSNFh2EEhthx4xW-y1eruq5Ghk6smz48";
+
 export const useMoviesStore = defineStore("movies", {
     state: () => ({
         movieData: undefined,
@@ -13,6 +12,10 @@ export const useMoviesStore = defineStore("movies", {
     },
     actions: {
         async fetchMovieData() {
+
+            const { movieToken } = useRuntimeConfig().public
+            const authToken = `Bearer ${movieToken}`;
+
             const { data } = await useFetch(
                 "https://api.themoviedb.org/3/movie/top_rated",
                 {
