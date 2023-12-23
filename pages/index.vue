@@ -1,11 +1,39 @@
 <script setup lang="ts">
-import Navbar from "~/components/Navbar.vue";
-import CardMovie from "~/components/CardMovie.vue";
 import { useMoviesStore } from "~/stores/movie.store";
+import Navbar from "~/components/Navbar.vue";
+import Footer from "~/components/Footer.vue";
+import CardMovie from "~/components/CardMovie.vue";
+
+import dayjs from "dayjs";
+import "dayjs/locale/th";
+import buddhistEra from "dayjs/plugin/buddhistEra";
+
+import TH from "~/assets/icon/flags/TH.svg";
+import UK from "~/assets/icon/flags/UK.svg";
+
+dayjs.extend(buddhistEra);
 
 const moviesStore = useMoviesStore();
-const moviesFetch = await moviesStore.fetchMovieData();
-const movies = ref(moviesFetch.results);
+
+const { locale } = useI18n();
+
+const langComputed = computed(
+  () => `${locale.value}-${locale.value.toUpperCase()}`
+);
+const formatComputed = computed(() =>
+  locale.value === "th" ? "DD MMMM BBBB" : "MMMM D, YYYY"
+);
+
+const changeLanguage = () => {
+  if (locale.value === "th") {
+    locale.value = "en";
+  } else {
+    locale.value = "th";
+  }
+};
+
+await moviesStore.fetchMovieData(langComputed.value);
+const movies = ref(moviesStore.movieData?.results);
 
 const searchElement = ref("");
 const moviesSearch = computed(() =>
@@ -13,10 +41,22 @@ const moviesSearch = computed(() =>
     return movie.title.toLowerCase().includes(searchElement.value);
   })
 );
+
+watch(locale, async (newVal) => {
+  await moviesStore.fetchMovieData(langComputed.value);
+  movies.value = moviesStore.movieData?.results;
+});
 </script>
 
 <template>
   <div>
+    <div
+      class="fixed right-5 bottom-5 bg-white p-2 rounded-full"
+      @click="changeLanguage()"
+    >
+      <TH v-if="locale === 'th'" class="w-[30px] h-[30px]" />
+      <UK v-else class="w-[30px] h-[30px]" />
+    </div>
     <Navbar v-model="searchElement" />
     <CardMovie
       v-for="(movie, index) in moviesSearch"
@@ -25,10 +65,14 @@ const moviesSearch = computed(() =>
       :id="movie.id"
       :title="movie.title"
       :overview="movie.overview"
-      :release_date="$dayjs(movie.release_date).format('MMM D, YYYY')"
+      :release_date="
+        $dayjs(movie.release_date).locale(locale).format(formatComputed)
+      "
       :vote="movie.vote_average"
       :poster_path="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${movie.poster_path}`"
     />
+
+    <Footer />
   </div>
 </template>
 

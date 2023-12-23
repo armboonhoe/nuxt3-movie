@@ -9,7 +9,7 @@ const toggle = () => (open.value = !open.value);
   <div>
     <nav class="navbar-container">
       <div class="title">
-        <span class="font-bold text-xl">Movie Shop</span>
+        <span class="font-bold text-xl">{{ $t("common.title") }}</span>
       </div>
       <div class="block sm:hidden">
         <button @click="toggle()" class="toggle">
@@ -25,15 +25,15 @@ const toggle = () => (open.value = !open.value);
       </div>
       <div :class="open ? 'flex' : 'hidden'" class="link-wrapper">
         <div class="text-sm">
-          <NuxtLink to="/" class="link"> Home </NuxtLink>
-          <NuxtLink to="#" class="link"> Examples </NuxtLink>
-          <NuxtLink to="#" class="link"> Blog </NuxtLink>
+          <NuxtLink to="/" class="link">
+            {{ $t("common.navbar.home") }}
+          </NuxtLink>
         </div>
         <div>
           <input
             type="text"
             class="search"
-            placeholder="Search..."
+            :placeholder="$t('common.search')"
             @input="emit('update:modelValue', $event.target.value)"
           />
         </div>

@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 
 export const useMoviesStore = defineStore("movies", {
     state: () => ({
-        movieData: undefined,
-        movieLiked: [] as Number[]
+        movieData: undefined
     }),
     getters: {
         getTopMovieName: () => {
@@ -11,7 +10,7 @@ export const useMoviesStore = defineStore("movies", {
         },
     },
     actions: {
-        async fetchMovieData() {
+        async fetchMovieData(lang: string) {
 
             const { movieToken } = useRuntimeConfig().public
             const authToken = `Bearer ${movieToken}`;
@@ -24,23 +23,13 @@ export const useMoviesStore = defineStore("movies", {
                     },
                     method: "GET",
                     query: {
-                        language: "en-EN",
+                        language: lang,
                         page: 1,
                     },
                 }
             );
             this.movieData = data.value;
             return data.value;
-        },
-        likeMovie(id: number) {
-            if (!this.movieLiked?.includes(id)) {
-                this.movieLiked?.push(id)
-            }
-            else {
-                const index = this.movieLiked.indexOf(id)
-                this.movieLiked.splice(index, 1)
-            }
         }
-
     },
 });

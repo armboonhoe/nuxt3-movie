@@ -33,12 +33,12 @@ const props = defineProps({
     <div class="movie__text">
       <div class="movie__about">
         <h1>{{ props.title }}</h1>
-        <p>{{ props.overview || "ไม่มีข้อมูล" }}</p>
+        <p>{{ props.overview || $t("common.noInfo") }}</p>
       </div>
       <span class="self-end text-right">
         <LikeButton :id="props.id" />
-        Vote : {{ props.vote }}<br />
-        Release Date : {{ props.release_date }}
+        {{ $t("common.vote", { vote: props.vote }) }}<br />
+        {{ $t("common.releaseDate", { releaseDate: props.release_date }) }}
       </span>
     </div>
   </div>

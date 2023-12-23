@@ -12,6 +12,8 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxt/image": "^1.1.0",
+    "@nuxtjs/i18n": "^8.0.0-rc.11",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "nuxt": "^3.8.2",
     "nuxt-svgo": "^3.7.0",
     "sass": "^1.69.5",
