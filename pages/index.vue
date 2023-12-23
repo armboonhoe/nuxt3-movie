@@ -49,16 +49,14 @@ watch(locale, async (newVal) => {
 </script>
 
 <template>
-  <div>
-    <div
-      class="fixed right-5 bottom-5 bg-white p-2 rounded-full"
-      @click="changeLanguage()"
-    >
+  <div class="page">
+    <div class="changeLang" @click="changeLanguage()">
       <TH v-if="locale === 'th'" class="w-[30px] h-[30px]" />
       <UK v-else class="w-[30px] h-[30px]" />
     </div>
     <Navbar v-model="searchElement" />
     <CardMovie
+      v-if="moviesSearch.length"
       v-for="(movie, index) in moviesSearch"
       class="mx-auto"
       :key="index"
@@ -71,12 +69,30 @@ watch(locale, async (newVal) => {
       :vote="movie.vote_average"
       :poster_path="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${movie.poster_path}`"
     />
+    <div v-else class="flex">
+      <div class="no-information">
+        {{ $t("common.noInfo") }}
+      </div>
+    </div>
 
     <Footer />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.no-information {
+  @apply bg-gray-800 rounded-full;
+  @apply flex items-center justify-center;
+  @apply m-auto p-4;
+  @apply text-white;
+}
+.changeLang {
+  @apply fixed right-5 bottom-5 bg-white p-2 rounded-full;
+}
+.page {
+  @apply grid grid-rows-[auto_1fr_auto];
+  @apply min-h-screen m-0;
+}
 .search {
   @apply w-full rounded-md border-0 py-1.5 px-4 text-gray-900 placeholder:text-gray-400;
   @apply ring-1 ring-inset ring-gray-300;

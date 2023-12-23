@@ -50,7 +50,7 @@ const props = defineProps({
   @apply flex-col sm:flex-row;
   @apply border border-gray-200 border-gray-700;
   @apply bg-gray-800 hover:bg-gray-100 hover:bg-gray-700;
-  @apply max-w-4xl;
+  @apply max-w-3xl w-full;
   @apply p-6 my-4 gap-x-4;
   &__image {
     @apply w-full h-auto rounded-lg;

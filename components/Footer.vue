@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .footer-container {
   @apply flex mx-auto text-center justify-center bg-gray-800;
   @apply font-bold text-white;
