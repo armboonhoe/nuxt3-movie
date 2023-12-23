@@ -51,7 +51,7 @@ watch(locale, async (newVal) => {
 <template>
   <div class="page">
     <div class="changeLang" @click="changeLanguage()">
-      <TH v-if="locale === 'th'" class="w-[30px] h-[30px]" />
+      <TH v-if="locale === 'en'" class="w-[30px] h-[30px]" />
       <UK v-else class="w-[30px] h-[30px]" />
     </div>
     <Navbar v-model="searchElement" />
